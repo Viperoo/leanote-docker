@@ -1,0 +1,18 @@
+server:
+  build: .
+  ports:
+    - "9000:9000"
+  restart: always
+  volumes:
+    - "./leanote-conf/conf:/usr/local/leanote/conf/"
+#    - "./leanote-conf/files:/usr/local/leanote/files"
+  links:
+    - db
+
+db:
+  image: "mongo:3.2.3"
+  volumes:
+    - "./mongo:/data/db"
+  ports:
+    - "27017:27017"
+
