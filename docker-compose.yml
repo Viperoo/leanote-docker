@@ -1,17 +1,33 @@
-server:
-  build: .
-  ports:
-    - "9009:9000"
-  restart: always
-  volumes:
-    - "/data/leanote/conf:/usr/local/leanote/conf/"
-    - "/data/leanote/files:/usr/local/leanote/files"
-  links:
-    - db
+version: '2'
+services:
 
-db:
-  image: "mongo:3.2.3"
-  volumes:
-    - "/data/leanote/mongo:/data/db"
-  ports:
-    - "27017:27017"
+  server:
+    build: .
+    ports:
+      - "9009:9000"
+    restart: always
+    volumes:
+      - "/data/leanote/conf:/usr/local/leanote/conf/"
+      - "/data/leanote/files:/usr/local/leanote/files"
+      - "/data/leanote/upload:/usr/local/leanote/public/upload"
+    links:
+      - db:db
+    depends_on:
+      - db
+    networks:
+      - public
+      - backend
+
+  db:
+    image: "mongo:3.2.3"
+    restart: always
+    volumes:
+      - "/data/leanote/mongo:/data/db"
+    networks:
+      - backend
+    ports:
+      - "27017"
+
+networks:
+  public:
+  backend:
