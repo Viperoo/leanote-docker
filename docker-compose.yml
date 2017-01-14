@@ -1,6 +1,6 @@
 version: '2'
 services:
-
+  
   server:
     build: .
     ports:
@@ -14,20 +14,9 @@ services:
       - db:db
     depends_on:
       - db
-    networks:
-      - public
-      - backend
 
   db:
-    image: "mongo:3.2.3"
+    image: "mongo:3"
     restart: always
     volumes:
       - "/data/leanote/mongo:/data/db"
-    networks:
-      - backend
-    ports:
-      - "27017"
-
-networks:
-  public:
-  backend:
