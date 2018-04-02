@@ -3,20 +3,26 @@
 ```
 docker-compose build
 
-sudo mkdir -p /data/leanote/{conf,files,upload}
-sudo cp -r conf /data/leanote
+sudo mkdir -p ./data/{conf,files,upload}
+sudo cp -r conf ./data
 docker-compose up -d
 ```
 
-### Migration
+### wkhtmltopdf
+
+To enable wkhtmltopdf, update binary path in admin settings.
+
+```
+/usr/bin/wkhtmltopdf
+```
+
+### First run
 
 You need to migrate application (first run only). To do this, you need `mongorestore`.
 
 ```
 docker exec -ti leanotedocker_server_1 sh
 
-echo 'http://dl-3.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
-echo 'http://dl-3.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
 apk upgrade --update
 apk add --update mongodb-tools
 mongorestore -h db -d leanote --dir mongodb_backup/leanote_install_data
